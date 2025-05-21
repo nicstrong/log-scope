@@ -92,7 +92,7 @@ export function shouldLog(
       return checkLevel <= level
     }
   }
-  return false
+  throw new Error('Invalid root namespace, no cascading level defined.')
 }
 
 export function setLogLevel(
