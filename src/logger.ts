@@ -1,11 +1,11 @@
-import { ConsoleOutputter } from './console-outputter'
-import { LogLevel, Outputter } from './types'
+import { ConsoleOutputter } from './console-outputter.js'
+import { LogLevel, Outputter } from './types.js'
 
 export const RootNamespace: unique symbol = Symbol('RootNamespace')
-export type RootNamespace = typeof RootNamespace
-const DEFAULT_ROOT_LEVEL = LogLevel.INFO
+export type RootNamespaceType = typeof RootNamespace
+export const DEFAULT_ROOT_LEVEL = LogLevel.INFO
 
-export function logger(namespace: string | RootNamespace) {
+export function logger(namespace: string | RootNamespaceType) {
   const loggedNamespace =
     typeof namespace === 'symbol' ? undefined : `[${namespace}]`
   const base = (message: any, ...args: any[]) => {
@@ -32,8 +32,8 @@ export function logger(namespace: string | RootNamespace) {
 
 let outputters: Outputter[] = [ConsoleOutputter]
 
-function logToOutputters(
-  namespace: string | RootNamespace,
+export function logToOutputters(
+  namespace: string | RootNamespaceType,
   level: LogLevel,
   message: any,
   ...optionalArgs: any[]
@@ -44,8 +44,8 @@ function logToOutputters(
     }
 }
 
-const WILDCARD_NAMESPACE_TOKEN = '*'
-const ROOT_NAMESPACE_KEY = '$'
+export const WILDCARD_NAMESPACE_TOKEN = '*'
+export const ROOT_NAMESPACE_KEY = '$'
 
 type NamespaceNode = {
   namespacePart: string
@@ -71,7 +71,7 @@ export function reset() {
 
 export function shouldLog(
   checkLevel: LogLevel,
-  namespace: string | RootNamespace
+  namespace: string | RootNamespaceType
 ): boolean {
   const [parts, _isWildcard] = namespaceParts(namespace, false)
   const [nodes, remaining] = findNearestNode(parts)
@@ -96,7 +96,7 @@ export function shouldLog(
 }
 
 export function setLogLevel(
-  namespace: string | RootNamespace,
+  namespace: string | RootNamespaceType,
   level: LogLevel
 ) {
   const [parts, isWildcard] = namespaceParts(namespace, true)
@@ -159,7 +159,7 @@ function findNearestNode(
 }
 
 function namespaceParts(
-  namespace: string | RootNamespace,
+  namespace: string | RootNamespaceType,
   allowWildcard: boolean
 ): [string[], boolean] {
   if (namespace === RootNamespace) {

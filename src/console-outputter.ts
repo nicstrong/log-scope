@@ -1,4 +1,4 @@
-import { LogLevel, type Outputter } from './types'
+import { LogLevel, type Outputter } from './types.js'
 
 export const ConsoleOutputter: Outputter = (
   level: LogLevel,

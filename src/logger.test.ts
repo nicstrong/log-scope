@@ -1,6 +1,12 @@
-import { logger, reset, RootNamespace, setLogLevel, shouldLog } from './logger'
-import { afterEach, beforeEach, describe, expect, it, vitest } from 'vitest'
-import { LogLevel } from './types'
+import {
+  logger,
+  reset,
+  RootNamespace,
+  setLogLevel,
+  shouldLog,
+} from './logger.js'
+import { LogLevel } from './types.js'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 describe('logger', () => {
   let originalLog: any
