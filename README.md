@@ -1,6 +1,6 @@
-# `log-scope`
+# `scope-log`
 
-A drop-in replacement for console.log with hierarchical namespaces and advanced filtering. `log-scope` makes browser logging more organized and powerful by allowing each log statement to be tagged with a namespace, supporting complex filtering and hierarchical log management.
+A drop-in replacement for console.log with hierarchical namespaces and advanced filtering. `scope-log` makes browser logging more organized and powerful by allowing each log statement to be tagged with a namespace, supporting complex filtering and hierarchical log management.
 
 ```ts
 
@@ -8,8 +8,8 @@ A drop-in replacement for console.log with hierarchical namespaces and advanced 
 
 ## Installation
 
-`pnpm add log-scope`
+`pnpm add scope-log`
 
-`npm i log-scope`
+`npm i scope-log`
 
-`yarn add log-scope`
+`yarn add scope-log`
