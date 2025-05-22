@@ -15,7 +15,8 @@
     "release": "npm run lint && npm run test && npm run build && changeset publish"
   },
   "keywords": [
-    "zod",
+    "browser",
+    "logging",
     "typescript"
   ],
   "author": "Nic Strong ",
