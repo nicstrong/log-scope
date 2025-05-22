@@ -6,25 +6,24 @@ export type RootNamespaceType = typeof RootNamespace
 export const DEFAULT_ROOT_LEVEL = LogLevel.INFO
 
 export function logger(namespace: string | RootNamespaceType) {
-  const loggedNamespace =
-    typeof namespace === 'symbol' ? undefined : `[${namespace}]`
-  const base = (message: any, ...args: any[]) => {
-    console.log(loggedNamespace, message, ...args)
+  const message = typeof namespace === 'symbol' ? undefined : `[${namespace}]`
+  const base = (...optionalParams: any[]) => {
+    logToOutputters(namespace, LogLevel.LOG, message, ...optionalParams)
   }
-  base.error = (...args: any[]) => {
-    console.error(loggedNamespace, ...args)
+  base.error = (...optionalParams: any[]) => {
+    logToOutputters(namespace, LogLevel.ERROR, message, ...optionalParams)
   }
-  base.warn = (...args: any[]) => {
-    console.warn(loggedNamespace, ...args)
+  base.warn = (...optionalParams: any[]) => {
+    logToOutputters(namespace, LogLevel.WARN, message, ...optionalParams)
   }
-  base.info = (...args: any[]) => {
-    console.info(loggedNamespace, ...args)
+  base.info = (...optionalParams: any[]) => {
+    logToOutputters(namespace, LogLevel.INFO, message, ...optionalParams)
   }
-  base.log = (...args: any[]) => {
-    console.log(loggedNamespace, ...args)
+  base.log = (...optionalParams: any[]) => {
+    logToOutputters(namespace, LogLevel.LOG, message, ...optionalParams)
   }
-  base.debug = (...args: any[]) => {
-    console.debug(loggedNamespace, ...args)
+  base.debug = (...optionalParams: any[]) => {
+    logToOutputters(namespace, LogLevel.DEBUG, message, ...optionalParams)
   }
 
   return base
@@ -32,15 +31,15 @@ export function logger(namespace: string | RootNamespaceType) {
 
 let outputters: Outputter[] = [ConsoleOutputter]
 
-export function logToOutputters(
+function logToOutputters(
   namespace: string | RootNamespaceType,
   level: LogLevel,
-  message: any,
-  ...optionalArgs: any[]
+  message?: any,
+  ...optionalParams: any[]
 ) {
   if (shouldLog(level, namespace))
     for (const outputter of outputters) {
-      outputter(level, message, ...optionalArgs)
+      outputter(level, message, ...optionalParams)
     }
 }
 
@@ -64,6 +63,10 @@ function createRootNode(): NamespaceNode {
 }
 
 let _namespaces = createRootNode()
+
+export function getNamespaces(): NamespaceNode {
+  return _namespaces
+}
 
 export function reset() {
   _namespaces = createRootNode()
@@ -163,10 +166,10 @@ function namespaceParts(
   allowWildcard: boolean
 ): [string[], boolean] {
   if (namespace === RootNamespace) {
-    return [[ROOT_NAMESPACE_KEY], false]
+    return [[], false]
   }
   if (namespace === '' || namespace === ROOT_NAMESPACE_KEY) {
-    return [[ROOT_NAMESPACE_KEY], false]
+    return [[], false]
   }
   if (namespace.endsWith(':')) {
     throw new Error(`Namespace "${namespace}" cannot end with a colon ':'.`)
@@ -190,6 +193,9 @@ function namespaceParts(
       )
     }
     parts.pop()
+  }
+  if (parts.length === 1 && parts[0] === ROOT_NAMESPACE_KEY) {
+    return [[], isWildcard]
   }
   return [parts, isWildcard]
 }

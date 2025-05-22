@@ -1,4 +1,6 @@
 import {
+  DEFAULT_ROOT_LEVEL,
+  getNamespaces,
   logger,
   reset,
   RootNamespace,
@@ -6,9 +8,9 @@ import {
   shouldLog,
 } from './logger.js'
 import { LogLevel } from './types.js'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
-describe('logger', () => {
+describe('logger tests', () => {
   let originalLog: any
   let originalError: any
   let originalWarn: any
@@ -17,6 +19,11 @@ describe('logger', () => {
   let errors: any[]
   let warns: any[]
   let infos: any[]
+
+  beforeAll(() => {
+    // Set the log level to DEBUG for all tests
+    setLogLevel('$:*', LogLevel.DEBUG)
+  })
 
   beforeEach(() => {
     logs = []
@@ -132,5 +139,24 @@ describe('setLogLevel and shouldLog', () => {
     expect(shouldLog(LogLevel.DEBUG, 'Customer:Registration:Portal')).toBe(
       false
     )
+  })
+})
+
+describe('setLogLevel tests', () => {
+  beforeEach(() => {
+    // Reset log levels for each test
+    reset()
+  })
+
+  it('should be able to set root namespace by symbol', () => {
+    setLogLevel(RootNamespace, LogLevel.DEBUG)
+    expect(getNamespaces().cascadingLevel).toBe(DEFAULT_ROOT_LEVEL)
+    expect(getNamespaces().nodeLevel).toBe(LogLevel.DEBUG)
+  })
+
+  it('should be able to set root namespace wildcard', () => {
+    setLogLevel('$:*', LogLevel.DEBUG)
+    expect(getNamespaces().cascadingLevel).toBe(LogLevel.DEBUG)
+    expect(getNamespaces().nodeLevel).toBe(null)
   })
 })
