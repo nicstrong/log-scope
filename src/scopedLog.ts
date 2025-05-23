@@ -5,7 +5,7 @@ export const RootNamespace: unique symbol = Symbol('RootNamespace')
 export type RootNamespaceType = typeof RootNamespace
 export const DEFAULT_ROOT_LEVEL = LogLevel.INFO
 
-export function logger(namespace: string | RootNamespaceType) {
+export function scopedLog(namespace: string | RootNamespaceType) {
   const message = typeof namespace === 'symbol' ? undefined : `[${namespace}]`
   const base = (...optionalParams: any[]) => {
     logToOutputters(namespace, LogLevel.LOG, message, ...optionalParams)

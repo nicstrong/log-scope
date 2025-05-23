@@ -1,16 +1,16 @@
 import {
   DEFAULT_ROOT_LEVEL,
   getNamespaces,
-  logger,
+  scopedLog,
   reset,
   RootNamespace,
   setLogLevel,
   shouldLog,
-} from './logger.js'
+} from './scopedLog.js'
 import { LogLevel } from './types.js'
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
-describe('logger tests', () => {
+describe('scopedLog tests', () => {
   let originalLog: any
   let originalError: any
   let originalWarn: any
@@ -48,7 +48,7 @@ describe('logger tests', () => {
   })
 
   it('should log with namespace', () => {
-    const log = logger('test')
+    const log = scopedLog('test')
     log('hello', 123)
     expect(logs[0][0]).toBe('[test]')
     expect(logs[0][1]).toBe('hello')
@@ -56,7 +56,7 @@ describe('logger tests', () => {
   })
 
   it('should log error with namespace', () => {
-    const log = logger('err')
+    const log = scopedLog('err')
     log.error('fail', 42)
     expect(errors[0][0]).toBe('[err]')
     expect(errors[0][1]).toBe('fail')
@@ -64,7 +64,7 @@ describe('logger tests', () => {
   })
 
   it('should log warn with namespace', () => {
-    const log = logger('warn')
+    const log = scopedLog('warn')
     log.warn('warned', 'foo')
     expect(warns[0][0]).toBe('[warn]')
     expect(warns[0][1]).toBe('warned')
@@ -72,7 +72,7 @@ describe('logger tests', () => {
   })
 
   it('should log info with namespace', () => {
-    const log = logger('info')
+    const log = scopedLog('info')
     log.info('info', { a: 1 })
     expect(infos[0][0]).toBe('[info]')
     expect(infos[0][1]).toBe('info')
@@ -80,7 +80,7 @@ describe('logger tests', () => {
   })
 
   it('should log with .log method', () => {
-    const log = logger('log')
+    const log = scopedLog('log')
     log.log('foo', 'bar')
     expect(logs[0][0]).toBe('[log]')
     expect(logs[0][1]).toBe('foo')

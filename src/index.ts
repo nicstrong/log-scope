@@ -6,8 +6,8 @@ export {
   reset,
   shouldLog,
   setLogLevel,
-} from './logger.js'
-export type { RootNamespaceType } from './logger.js'
+} from './scopedLog.js'
+export type { RootNamespaceType } from './scopedLog.js'
 
 export type { Outputter } from './types.js'
 export { LogLevel } from './types.js'
