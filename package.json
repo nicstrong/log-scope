@@ -1,6 +1,6 @@
 {
   "name": "scope-log",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "A drop-in replacement for console.log with hierarchical namespaces and advanced filtering.",
   "private": false,
   "main": "./dist/index.js",
@@ -13,8 +13,7 @@
     "lint": "tsc --noEmit",
     "release": "pnpm -r publish && changeset tag",
     "version": "changeset version",
-    "ci:build": "pnpm run lint && pnpm run build && pnpm run test",
-    "ci:release": "pnpm run lint && pnpm run test && pnpm run build && changeset publish"
+    "ci:build": "pnpm run lint && pnpm run build && pnpm run test"
   },
   "keywords": [
     "browser",
