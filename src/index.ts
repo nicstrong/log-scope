@@ -4,6 +4,8 @@ export {
   WILDCARD_NAMESPACE_TOKEN,
   ROOT_NAMESPACE_KEY,
   reset,
+  scopedLog,
+  getNamespaces,
   shouldLog,
   setLogLevel,
 } from './scopedLog.js'
