@@ -1,6 +1,6 @@
 {
   "name": "scope-log",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A drop-in replacement for console.log with hierarchical namespaces and advanced filtering.",
   "private": false,
   "main": "./dist/index.js",
